@@ -1,6 +1,6 @@
-name: 'YourPluginName'
+name: 'TimeSynchronizer'
 version: '${version}'
-main: 'me.kvd.plugin.YourPluginClassName'
+main: 'me.kvdpxne.ts.TimeSynchronizerPlugin'
 authors: ['kvdpxne', 'mcdtm team']
 description: '${description}'
-website: 'https://github.com/mcdtm/'
+website: 'https://github.com/mcdtm/time-synchronizer/'
