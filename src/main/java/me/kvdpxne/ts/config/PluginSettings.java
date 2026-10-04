@@ -1,38 +1,54 @@
 package me.kvdpxne.ts.config;
 
+import me.kvdpxne.ts.api.ListenerState;
+
 import java.time.ZoneId;
 import java.util.Objects;
+import java.util.Set;
 
-/**
- * Immutable, validated plugin settings loaded from the properties file.
- *
- * @param zoneId        IANA zone id used to compute the in-game time-of-day
- * @param daySyncMode   how the day counter is synchronized with the real calendar
- * @param timeApplyMode which API is used when day sync is disabled
- */
 public record PluginSettings(
+  int configVersion,
   ZoneId zoneId,
   DaySyncMode daySyncMode,
-  TimeApplyMode timeApplyMode
+  TimeApplyMode timeApplyMode,
+  double scale,
+  long updateIntervalTicks,
+  Set<String> excludedWorlds,
+  ListenerState playerJoinSyncListenerState,
+  ListenerState worldLifecycleListenerState,
+  boolean daylightGuardEnabled,
+  long fallbackGuardIntervalTicks,
+  long eventThrottleMillis,
+  long timeJumpWarningThresholdTicks,
+  boolean warnNonPaper,
+  boolean bStatsEnabled
 ) {
 
   public PluginSettings {
     Objects.requireNonNull(zoneId, "zoneId");
     Objects.requireNonNull(daySyncMode, "daySyncMode");
     Objects.requireNonNull(timeApplyMode, "timeApplyMode");
+    Objects.requireNonNull(playerJoinSyncListenerState, "playerJoinSyncListenerState");
+    Objects.requireNonNull(worldLifecycleListenerState, "worldLifecycleListenerState");
+    excludedWorlds = Set.copyOf(Objects.requireNonNull(excludedWorlds, "excludedWorlds"));
+    if (0.0 >= scale) {
+      throw new IllegalArgumentException("scale must be positive: " + scale);
+    }
+    if (0L >= updateIntervalTicks) {
+      throw new IllegalArgumentException("updateIntervalTicks must be positive");
+    }
+    if (0L >= fallbackGuardIntervalTicks) {
+      throw new IllegalArgumentException("fallbackGuardIntervalTicks must be positive");
+    }
+    if (0L > eventThrottleMillis) {
+      throw new IllegalArgumentException("eventThrottleMillis must be non-negative");
+    }
+    if (0L > timeJumpWarningThresholdTicks) {
+      throw new IllegalArgumentException("timeJumpWarningThresholdTicks must be non-negative");
+    }
   }
 
-  /**
-   * @return {@code true} when day counter must be derived from the real calendar
-   */
   public boolean isDaySyncEnabled() {
-    return DaySyncMode.DISABLED != daySyncMode;
-  }
-
-  /**
-   * @return {@code true} when the applier should touch every world, not only Overworld
-   */
-  public boolean appliesToAllWorlds() {
-    return DaySyncMode.ALL_WORLDS == daySyncMode;
+    return DaySyncMode.DISABLED != this.daySyncMode;
   }
 }

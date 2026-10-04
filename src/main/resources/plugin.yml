@@ -1,6 +1,40 @@
 name: 'TimeSynchronizer'
 version: '${version}'
-main: 'me.kvdpxne.ts.TimeSynchronizerPlugin'
-authors: ['kvdpxne', 'mcdtm team']
+main: 'me.kvdpxne.ts.TimeSyncPlugin'
+authors: [ 'kvdpxne', 'mcdtm team' ]
 description: '${description}'
 website: 'https://github.com/mcdtm/time-synchronizer/'
+
+commands:
+  timesync:
+    description: TimeSync administration command.
+    usage: /timesync <reload|status|syncnow|listener|zone>
+    aliases: [ ts ]
+    permission: timesync.admin
+    permission-message: You lack permission to use TimeSync.
+
+permissions:
+  timesync.admin:
+    description: Grants all TimeSync commands.
+    default: op
+    children:
+      timesync.reload: true
+      timesync.status: true
+      timesync.syncnow: true
+      timesync.listener: true
+      timesync.zone: true
+  timesync.reload:
+    description: Allows reloading the configuration.
+    default: op
+  timesync.status:
+    description: Allows viewing plugin status.
+    default: op
+  timesync.syncnow:
+    description: Allows forcing an immediate time sync.
+    default: op
+  timesync.listener:
+    description: Allows viewing and toggling listeners.
+    default: op
+  timesync.zone:
+    description: Allows changing the configured time zone.
+    default: op

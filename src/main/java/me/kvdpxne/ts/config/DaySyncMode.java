@@ -1,6 +1,8 @@
 package me.kvdpxne.ts.config;
 
-import java.util.Locale;
+import me.kvdpxne.ts.util.parser.EnumParser;
+
+import java.util.Optional;
 
 /**
  * How the in-game day counter is synchronized with the real-world calendar.
@@ -17,18 +19,9 @@ public enum DaySyncMode {
   ALL_WORLDS;
 
   /**
-   * Parses a case-insensitive, trimmed string into a {@link DaySyncMode}.
-   *
-   * @throws IllegalArgumentException when the value does not match any mode
+   * @return the parsed mode, or {@link Optional#empty()} when the input is unknown or null
    */
-  public static DaySyncMode fromString(final String raw) {
-    if (null == raw) {
-      throw new NullPointerException("raw");
-    }
-    try {
-      return valueOf(raw.trim().toUpperCase(Locale.ROOT));
-    } catch (final IllegalArgumentException cause) {
-      throw new IllegalArgumentException("Unknown day-sync-mode: " + raw, cause);
-    }
+  public static Optional<DaySyncMode> tryFromString(final String raw) {
+    return EnumParser.tryParse(DaySyncMode.class, raw);
   }
 }

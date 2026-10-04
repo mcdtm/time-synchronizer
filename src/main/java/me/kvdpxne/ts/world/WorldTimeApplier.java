@@ -1,12 +1,14 @@
 package me.kvdpxne.ts.world;
 
-import me.kvdpxne.ts.time.TimeSnapshot;
+import me.kvdpxne.ts.api.TimeSnapshot;
+import org.bukkit.World;
 
-/**
- * Strategy for applying a {@link TimeSnapshot} to one or more worlds.
- */
+import java.util.List;
+
 @FunctionalInterface
 public interface WorldTimeApplier {
-
-  void apply(TimeSnapshot snapshot);
+  /**
+   * @return the worlds that were actually modified
+   */
+  List<World> apply(TimeSnapshot snapshot);
 }

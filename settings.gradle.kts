@@ -19,6 +19,8 @@ dependencyResolutionManagement {
         includeGroupAndSubgroups("com.github.kvdpxne")
       }
     }
+    // https://docs.papermc.io/paper/dev/project-setup/
+    maven("https://repo.papermc.io/repository/maven-public/")
   }
 }
 

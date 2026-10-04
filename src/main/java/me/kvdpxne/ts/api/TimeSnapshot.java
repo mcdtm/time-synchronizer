@@ -1,10 +1,10 @@
-package me.kvdpxne.ts.time;
+package me.kvdpxne.ts.api;
 
 /**
- * Immutable snapshot of the target in-game time.
+ * Immutable snapshot of a target in-game time. Part of the public API.
  *
  * @param timeOfDay time-of-day in ticks, within {@code [0, 24000)}
- * @param fullTime  full time in ticks, aligned to the real-world epoch day
+ * @param fullTime  absolute time in ticks, aligned to the real-world epoch day
  */
 public record TimeSnapshot(long timeOfDay, long fullTime) {
 
